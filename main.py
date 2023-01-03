@@ -3,10 +3,11 @@ import pygame
 
 def setup_screen():
     size = [800, 600]
-    screen = pygame.display.set_mode(size)
+    pygame.display.init()
+    pygame.display.set_caption("BennyPaint")
+    screen = pygame.display.set_mode(size, pygame.RESIZABLE)
     screen.fill("white")
     pygame.display.update()
-    pygame.display.set_caption("BennyPaint")
     return screen
 
 
@@ -19,6 +20,10 @@ def main_game_loop(screen):
             if event.type == pygame.QUIT:
                 playing = False
         screen.fill("white")
+        xMax, yMax = screen.get_size()
+        menu_rect = pygame.Rect(3*xMax/4, 0, xMax/4, yMax)
+        pygame.Surface.fill(screen, color="green", rect=menu_rect)
+        #print(screen.get_size())
         pygame.display.update()
 
 
