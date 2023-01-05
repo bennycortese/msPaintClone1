@@ -19,6 +19,7 @@ def main_game_loop(screen):
     playing = True
     clock = pygame.time.Clock()
     down = False
+    positions_altered = set()
     while playing:
         clock.tick(60)
         for event in pygame.event.get():
@@ -30,8 +31,17 @@ def main_game_loop(screen):
                 down = False
         if down:
             pos = pygame.mouse.get_pos()
-            print(pos)
-        screen.fill("white")
+            positions_altered.add((pos[0], pos[1]))
+            positions_altered.add((pos[0] + 1, pos[1]))
+            positions_altered.add((pos[0], pos[1] + 1))
+            positions_altered.add((pos[0] - 1, pos[1]))
+            positions_altered.add((pos[0], pos[1] - 1))
+            positions_altered.add((pos[0] - 1, pos[1] - 1))
+            positions_altered.add((pos[0] + 1, pos[1] - 1))
+            positions_altered.add((pos[0] + 1, pos[1] + 1))
+            positions_altered.add((pos[0] - 1, pos[1] + 1))
+        for position in positions_altered:
+            screen.set_at(position, "black")
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3*xMax/4, 0, xMax/4, yMax)
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
