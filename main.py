@@ -20,12 +20,17 @@ def main_game_loop(screen):
     clock = pygame.time.Clock()
     down = False
     positions_altered = set()
+    clock.tick(300)
     while playing:
-        clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 playing = False
             if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                xMax, yMax = screen.get_size()
+                if pos[0] > 3*xMax/4:
+                    positions_altered.clear()
+                    screen.fill(color="white")
                 down = True
             if event.type == pygame.MOUSEBUTTONUP:
                 down = False
