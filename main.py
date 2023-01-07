@@ -21,6 +21,7 @@ def main_game_loop(screen):
     down = False
     positions_altered = set()
     clock.tick(300)
+    draw_color = "black"
     while playing:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -34,19 +35,24 @@ def main_game_loop(screen):
                 down = True
             if event.type == pygame.MOUSEBUTTONUP:
                 down = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    draw_color = "black"
+                if event.key == pygame.K_r:
+                    draw_color = "red"
         if down:
             pos = pygame.mouse.get_pos()
-            positions_altered.add((pos[0], pos[1]))
-            positions_altered.add((pos[0] + 1, pos[1]))
-            positions_altered.add((pos[0], pos[1] + 1))
-            positions_altered.add((pos[0] - 1, pos[1]))
-            positions_altered.add((pos[0], pos[1] - 1))
-            positions_altered.add((pos[0] - 1, pos[1] - 1))
-            positions_altered.add((pos[0] + 1, pos[1] - 1))
-            positions_altered.add((pos[0] + 1, pos[1] + 1))
-            positions_altered.add((pos[0] - 1, pos[1] + 1))
+            positions_altered.add(((pos[0], pos[1]), draw_color))
+            positions_altered.add(((pos[0] + 1, pos[1]), draw_color))
+            positions_altered.add(((pos[0], pos[1] + 1), draw_color))
+            positions_altered.add(((pos[0] - 1, pos[1]), draw_color))
+            positions_altered.add(((pos[0], pos[1] - 1), draw_color))
+            positions_altered.add(((pos[0] - 1, pos[1] - 1), draw_color))
+            positions_altered.add(((pos[0] + 1, pos[1] - 1), draw_color))
+            positions_altered.add(((pos[0] + 1, pos[1] + 1), draw_color))
+            positions_altered.add(((pos[0] - 1, pos[1] + 1), draw_color))
         for position in positions_altered:
-            screen.set_at(position, "black")
+            screen.set_at(position[0], position[1])
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3*xMax/4, 0, xMax/4, yMax)
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
