@@ -19,7 +19,7 @@ def main_game_loop(screen):
     playing = True
     clock = pygame.time.Clock()
     down = False
-    positions_altered = set()
+    positions_altered = dict()
     clock.tick(300)
     draw_color = "black"
     while playing:
@@ -37,22 +37,30 @@ def main_game_loop(screen):
                 down = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b:
-                    draw_color = "black"
+                    draw_color = "blue"
                 if event.key == pygame.K_r:
                     draw_color = "red"
+                if event.key == pygame.K_y:
+                    draw_color = "yellow"
+                if event.key == pygame.K_g:
+                    draw_color = "green"
+                if event.key == pygame.K_w:
+                    draw_color = "white"
+                if event.key == pygame.K_u:
+                    draw_color = "black"
         if down:
             pos = pygame.mouse.get_pos()
-            positions_altered.add(((pos[0], pos[1]), draw_color))
-            positions_altered.add(((pos[0] + 1, pos[1]), draw_color))
-            positions_altered.add(((pos[0], pos[1] + 1), draw_color))
-            positions_altered.add(((pos[0] - 1, pos[1]), draw_color))
-            positions_altered.add(((pos[0], pos[1] - 1), draw_color))
-            positions_altered.add(((pos[0] - 1, pos[1] - 1), draw_color))
-            positions_altered.add(((pos[0] + 1, pos[1] - 1), draw_color))
-            positions_altered.add(((pos[0] + 1, pos[1] + 1), draw_color))
-            positions_altered.add(((pos[0] - 1, pos[1] + 1), draw_color))
+            positions_altered[(pos[0], pos[1])] = draw_color
+            positions_altered[(pos[0] + 1, pos[1])] = draw_color
+            positions_altered[(pos[0], pos[1] + 1)] = draw_color
+            positions_altered[(pos[0] - 1, pos[1])] = draw_color
+            positions_altered[(pos[0], pos[1] - 1)] = draw_color
+            positions_altered[(pos[0] - 1, pos[1] - 1)] = draw_color
+            positions_altered[(pos[0] + 1, pos[1] - 1)] = draw_color
+            positions_altered[(pos[0] + 1, pos[1] + 1)] = draw_color
+            positions_altered[(pos[0] - 1, pos[1] + 1)] = draw_color
         for position in positions_altered:
-            screen.set_at(position[0], position[1])
+            screen.set_at(position, positions_altered[position])
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3*xMax/4, 0, xMax/4, yMax)
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
