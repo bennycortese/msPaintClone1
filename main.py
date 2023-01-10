@@ -22,6 +22,7 @@ def main_game_loop(screen):
     positions_altered = dict()
     clock.tick(300)
     draw_color = "black"
+    pixel_size = 2
     while playing:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -48,6 +49,10 @@ def main_game_loop(screen):
                     draw_color = "white"
                 if event.key == pygame.K_u:
                     draw_color = "black"
+                if event.key == pygame.K_3:
+                    pixel_size = 3
+                if event.key == pygame.K_2:
+                    pixel_size = 2
         if down:
             pos = pygame.mouse.get_pos()
             positions_altered[(pos[0], pos[1])] = draw_color
@@ -59,6 +64,25 @@ def main_game_loop(screen):
             positions_altered[(pos[0] + 1, pos[1] - 1)] = draw_color
             positions_altered[(pos[0] + 1, pos[1] + 1)] = draw_color
             positions_altered[(pos[0] - 1, pos[1] + 1)] = draw_color
+            if pixel_size == 3:
+                positions_altered[(pos[0], pos[1] + 2)] = draw_color
+                positions_altered[(pos[0] + 1, pos[1] + 2)] = draw_color
+                positions_altered[(pos[0] - 1, pos[1] + 2)] = draw_color
+                positions_altered[(pos[0], pos[1] - 2)] = draw_color
+                positions_altered[(pos[0] - 1, pos[1] - 2)] = draw_color
+                positions_altered[(pos[0] + 1, pos[1] - 2)] = draw_color
+                positions_altered[(pos[0] + 2, pos[1])] = draw_color
+                positions_altered[(pos[0] + 2, pos[1] - 1)] = draw_color
+                positions_altered[(pos[0] + 2, pos[1] + 1)] = draw_color
+                positions_altered[(pos[0] - 2, pos[1])] = draw_color
+                positions_altered[(pos[0] - 2, pos[1] - 1)] = draw_color
+                positions_altered[(pos[0] - 2, pos[1] + 1)] = draw_color
+
+                positions_altered[(pos[0] + 2, pos[1] + 2)] = draw_color
+                positions_altered[(pos[0] - 2, pos[1] + 2)] = draw_color
+                positions_altered[(pos[0] + 2, pos[1] - 2)] = draw_color
+                positions_altered[(pos[0] - 2, pos[1] - 2)] = draw_color
+
         for position in positions_altered:
             screen.set_at(position, positions_altered[position])
         xMax, yMax = screen.get_size()
