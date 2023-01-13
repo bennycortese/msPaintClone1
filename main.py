@@ -43,12 +43,22 @@ def num_key_map():
     num_map[pygame.K_9] = 9
     return num_map
 
+def color_map():
+    color_mapping = dict()
+    color_mapping["black"] = [0, 0, 0]
+    color_mapping["red"] = [255, 0, 0]
+    color_mapping["green"] = [0, 255, 0]
+    color_mapping["blue"] = [0, 0, 255]
+    color_mapping["yellow"] = [255, 255, 0]
+    color_mapping["white"] = [255, 255, 255]
+    return color_mapping
 
 def main_game_loop(screen, width, height):
     pixelArray = np.zeros([height, int((width / 4) * 3), 3], dtype=np.uint8)
     for i in range(len(pixelArray)):
         for j in range(len(pixelArray[i])):
             pixelArray[i][j] = (255, 255, 255)
+    color_mapping = color_map()
     print(len(pixelArray[0]))
     playing = True
     clock = pygame.time.Clock()
@@ -90,17 +100,13 @@ def main_game_loop(screen, width, height):
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
             temp_dict[(pos[0], pos[1])] = draw_color
-            pixelArray[pos[0]][pos[1]] = (128, 128, 128)
-            print(pixelArray[pos[0]][pos[1]])
             for i in range(pixel_size - 1):
                 temp_dict = increase_pixel_size(temp_dict)
             positions_altered.update(temp_dict)
-
         for position in positions_altered:
+            pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
             screen.set_at(position, positions_altered[position])
-        for i in range(len(pixelArray)):
-            for j in range(len(pixelArray[i])):
-                screen.set_at((i,j), pixelArray[i][j])
+        positions_altered.clear()
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3 * xMax / 4, 0, xMax / 4, yMax)
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
