@@ -3,14 +3,11 @@ import numpy as np
 import copy
 
 
-def setup_screen():
-    width = 800
-    height = 600
+def setup_screen(width, height):
     size = [width, height]
     pygame.display.init()
     pygame.display.set_caption("BennyPaint")
     screen = pygame.display.set_mode(size)
-    pixelArray = np.empty(shape=(width, height))
     screen.fill("white")
     pygame.display.update()
     return screen
@@ -47,14 +44,19 @@ def num_key_map():
     return num_map
 
 
-def main_game_loop(screen):
+def main_game_loop(screen, width, height):
+    pixelArray = np.zeros([height, int((width / 4) * 3), 3], dtype=np.uint8)
+    for i in range(len(pixelArray)):
+        for j in range(len(pixelArray[i])):
+            pixelArray[i][j] = (255, 255, 255)
+    print(len(pixelArray[0]))
     playing = True
     clock = pygame.time.Clock()
     down = False
     positions_altered = dict()
-    clock.tick(300)
+    clock.tick(60)
     draw_color = "black"
-    pixel_size = 1
+    pixel_size = 3
     num_map = num_key_map()
     while playing:
         for event in pygame.event.get():
@@ -88,12 +90,17 @@ def main_game_loop(screen):
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
             temp_dict[(pos[0], pos[1])] = draw_color
+            pixelArray[pos[0]][pos[1]] = (128, 128, 128)
+            print(pixelArray[pos[0]][pos[1]])
             for i in range(pixel_size - 1):
                 temp_dict = increase_pixel_size(temp_dict)
             positions_altered.update(temp_dict)
 
         for position in positions_altered:
             screen.set_at(position, positions_altered[position])
+        for i in range(len(pixelArray)):
+            for j in range(len(pixelArray[i])):
+                screen.set_at((i,j), pixelArray[i][j])
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3 * xMax / 4, 0, xMax / 4, yMax)
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
@@ -102,7 +109,9 @@ def main_game_loop(screen):
 
 
 if __name__ == '__main__':
-    screen = setup_screen()
-    main_game_loop(screen)
+    width = 800
+    height = 600
+    screen = setup_screen(width, height)
+    main_game_loop(screen, width, height)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
