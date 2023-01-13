@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import copy
 
 
 def setup_screen():
@@ -32,6 +33,19 @@ def increase_pixel_size(positions_altered):
     return result_dict
 
 
+def num_key_map():
+    num_map = dict()
+    num_map[pygame.K_1] = 1
+    num_map[pygame.K_2] = 2
+    num_map[pygame.K_3] = 3
+    num_map[pygame.K_4] = 4
+    num_map[pygame.K_5] = 5
+    num_map[pygame.K_6] = 6
+    num_map[pygame.K_7] = 7
+    num_map[pygame.K_8] = 8
+    num_map[pygame.K_9] = 9
+    return num_map
+
 
 def main_game_loop(screen):
     playing = True
@@ -40,7 +54,8 @@ def main_game_loop(screen):
     positions_altered = dict()
     clock.tick(300)
     draw_color = "black"
-    pixel_size = 2
+    pixel_size = 1
+    num_map = num_key_map()
     while playing:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -67,45 +82,15 @@ def main_game_loop(screen):
                     draw_color = "white"
                 if event.key == pygame.K_u:
                     draw_color = "black"
-                if event.key == pygame.K_3:
-                    pixel_size = 3
-                if event.key == pygame.K_2:
-                    pixel_size = 2
-                if event.key == pygame.K_4:
-                    pixel_size = 4
+                if event.key in num_map:
+                    pixel_size = num_map[event.key]
         if down:
             pos = pygame.mouse.get_pos()
-            positions_altered[(pos[0], pos[1])] = draw_color
-            positions_altered[(pos[0] + 1, pos[1])] = draw_color
-            positions_altered[(pos[0], pos[1] + 1)] = draw_color
-            positions_altered[(pos[0] - 1, pos[1])] = draw_color
-            positions_altered[(pos[0], pos[1] - 1)] = draw_color
-            positions_altered[(pos[0] - 1, pos[1] - 1)] = draw_color
-            positions_altered[(pos[0] + 1, pos[1] - 1)] = draw_color
-            positions_altered[(pos[0] + 1, pos[1] + 1)] = draw_color
-            positions_altered[(pos[0] - 1, pos[1] + 1)] = draw_color
-            if pixel_size == 3 or pixel_size == 4:
-                temp_dict = dict()
-                temp_dict[(pos[0], pos[1] + 2)] = draw_color
-                temp_dict[(pos[0] + 1, pos[1] + 2)] = draw_color
-                temp_dict[(pos[0] - 1, pos[1] + 2)] = draw_color
-                temp_dict[(pos[0], pos[1] - 2)] = draw_color
-                temp_dict[(pos[0] - 1, pos[1] - 2)] = draw_color
-                temp_dict[(pos[0] + 1, pos[1] - 2)] = draw_color
-                temp_dict[(pos[0] + 2, pos[1])] = draw_color
-                temp_dict[(pos[0] + 2, pos[1] - 1)] = draw_color
-                temp_dict[(pos[0] + 2, pos[1] + 1)] = draw_color
-                temp_dict[(pos[0] - 2, pos[1])] = draw_color
-                temp_dict[(pos[0] - 2, pos[1] - 1)] = draw_color
-                temp_dict[(pos[0] - 2, pos[1] + 1)] = draw_color
-                temp_dict[(pos[0] + 2, pos[1] + 2)] = draw_color
-                temp_dict[(pos[0] - 2, pos[1] + 2)] = draw_color
-                temp_dict[(pos[0] + 2, pos[1] - 2)] = draw_color
-                temp_dict[(pos[0] - 2, pos[1] - 2)] = draw_color
-                positions_altered.update(temp_dict)
-            if pixel_size == 4:
-                positions_altered.update(increase_pixel_size(temp_dict))
-
+            temp_dict = dict()
+            temp_dict[(pos[0], pos[1])] = draw_color
+            for i in range(pixel_size - 1):
+                temp_dict = increase_pixel_size(temp_dict)
+            positions_altered.update(temp_dict)
 
         for position in positions_altered:
             screen.set_at(position, positions_altered[position])
