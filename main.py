@@ -105,7 +105,7 @@ def main_game_loop(screen, width, height):
             positions_altered.update(temp_dict)
         for position in positions_altered:
             pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
-            screen.set_at(position, positions_altered[position])
+            screen.set_at(position, color_mapping[positions_altered[position]])
         positions_altered.clear()
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3 * xMax / 4, 0, xMax / 4, yMax)
