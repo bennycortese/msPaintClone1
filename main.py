@@ -51,6 +51,7 @@ def color_map():
     color_mapping["blue"] = [0, 0, 255]
     color_mapping["yellow"] = [255, 255, 0]
     color_mapping["white"] = [255, 255, 255]
+    color_mapping["cyan"] = [0, 255, 255]
     return color_mapping
 
 def main_game_loop(screen, width, height):
@@ -94,6 +95,8 @@ def main_game_loop(screen, width, height):
                     draw_color = "white"
                 if event.key == pygame.K_u:
                     draw_color = "black"
+                if event.key == pygame.K_c:
+                    draw_color = "cyan"
                 if event.key in num_map:
                     pixel_size = num_map[event.key]
         if down:
