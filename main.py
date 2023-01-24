@@ -43,6 +43,7 @@ def num_key_map():
     num_map[pygame.K_9] = 9
     return num_map
 
+
 def color_map():
     color_mapping = dict()
     color_mapping["black"] = [0, 0, 0]
@@ -60,7 +61,9 @@ def color_map():
     color_mapping["emerald_green"] = [80, 200, 120]
     return color_mapping
 
+
 def main_game_loop(screen, width, height):
+    draw_mode = "pixel"
     pixelArray = np.zeros([height, int((width / 4) * 3), 3], dtype=np.uint8)
     for i in range(len(pixelArray)):
         for j in range(len(pixelArray[i])):
@@ -115,14 +118,21 @@ def main_game_loop(screen, width, height):
                     draw_color = "fuchsia"
                 if event.key == pygame.K_e:
                     draw_color = "emerald_green"
+                if event.key == pygame.K_s:
+                    draw_mode = "bucket"
                 if event.key in num_map:
                     pixel_size = num_map[event.key]
-        if down:
+        if down and draw_mode == "pixel":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
             temp_dict[(pos[0], pos[1])] = draw_color
             for i in range(pixel_size - 1):
                 temp_dict = increase_pixel_size(temp_dict)
+            positions_altered.update(temp_dict)
+        if down and draw_mode == "bucket":
+            pos = pygame.mouse.get_pos()
+            temp_dict = dict()
+            temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict)
             positions_altered.update(temp_dict)
         for position in positions_altered:
             pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
@@ -133,6 +143,24 @@ def main_game_loop(screen, width, height):
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
         # print(screen.get_size())
         pygame.display.update()
+
+
+def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values):
+    if 0 < position[0] < 400 and 400 > position[1] > 0:
+        curColor = pixelArray[position[0]][position[1]]
+        changedColor = np.array(color_mapping[draw_color])
+        print(curColor)
+        print(changedColor)
+        for i in range(len(curColor)):
+            if pixelArray[position[0]][position[1]][i] != changedColor[draw_color][i]:
+                replace_values[position] = draw_color
+                pixelArray[position[0]][position[1]] = color_mapping[draw_color]
+                fill_bucket((position[0] + 1, position[1]), pixelArray, color_mapping, draw_color, replace_values)
+                fill_bucket((position[0] - 1, position[1]), pixelArray, color_mapping, draw_color, replace_values)
+                fill_bucket((position[0], position[1] + 1), pixelArray, color_mapping, draw_color, replace_values)
+                fill_bucket((position[0], position[1] - 1), pixelArray, color_mapping, draw_color, replace_values)
+                i = len(curColor)
+    return replace_values
 
 
 if __name__ == '__main__':
