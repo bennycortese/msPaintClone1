@@ -59,6 +59,7 @@ def color_map():
     color_mapping["grey"] = [128, 128, 128]
     color_mapping["fuchsia"] = [255, 0, 255]
     color_mapping["emerald_green"] = [80, 200, 120]
+    color_mapping["random"] = [120, 240, 140]
     return color_mapping
 
 
@@ -118,6 +119,8 @@ def main_game_loop(screen, width, height):
                     draw_color = "fuchsia"
                 if event.key == pygame.K_e:
                     draw_color = "emerald_green"
+                if event.key == pygame.K_r:
+                    draw_color = "random"
                 if event.key == pygame.K_s:
                     draw_mode = "bucket"
                 if event.key in num_map:
