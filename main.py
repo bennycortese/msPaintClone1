@@ -141,8 +141,9 @@ def main_game_loop(screen, width, height):
             temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict)
             positions_altered.update(temp_dict)
         for position in positions_altered:
-            pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
-            screen.set_at(position, color_mapping[positions_altered[position]])
+            if position[0] < 3 * xMax / 4:
+                pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
+                screen.set_at(position, color_mapping[positions_altered[position]])
         positions_altered.clear()
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3 * xMax / 4, 0, xMax / 4, yMax)
