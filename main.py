@@ -156,11 +156,11 @@ def main_game_loop(screen, width, height):
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values):
     if 0 < position[0] < 400 and 400 > position[1] > 0:
         curColor = pixelArray[position[0]][position[1]]
-        changedColor = np.array(color_mapping[draw_color])
-        print(curColor)
-        print(changedColor)
+        changedColor = color_mapping[draw_color]
+        #print(curColor)
+        #print(changedColor)
         for i in range(len(curColor)):
-            if pixelArray[position[0]][position[1]][i] != changedColor[draw_color][i]:
+            if pixelArray[position[0]][position[1]][i] != changedColor[i]:
                 replace_values[position] = draw_color
                 pixelArray[position[0]][position[1]] = color_mapping[draw_color]
                 fill_bucket((position[0] + 1, position[1]), pixelArray, color_mapping, draw_color, replace_values)
