@@ -62,6 +62,7 @@ def color_map():
     color_mapping["emerald_green"] = [80, 200, 120]
     color_mapping["some_green"] = [120, 240, 140]
     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+    color_mapping["gold"] = [255, 215, 0]
     return color_mapping
 
 
