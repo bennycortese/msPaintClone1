@@ -155,15 +155,14 @@ def main_game_loop(screen, width, height):
 
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, count):
     if 0 < position[0] < 400 and 400 > position[1] > 0:
-        changedColor = np.array(color_mapping[draw_color])
-        if not np.array_equal(pixelArray[position[0]][position[1]], changedColor) and count < 5:
+        if not np.array_equal(pixelArray[position[0]][position[1]], np.array(color_mapping[draw_color])) and count < 5:
             count += 1;
             replace_values[position] = draw_color
-            pixelArray[position[0]][position[1]] = color_mapping[draw_color]
-            fill_bucket((position[0] + 1, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
-            fill_bucket((position[0] - 1, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
-            fill_bucket((position[0], position[1] + 1), pixelArray, color_mapping, draw_color, replace_values, count)
-            fill_bucket((position[0], position[1] - 1), pixelArray, color_mapping, draw_color, replace_values, count)
+            pixelArray[position[0]][position[1]] = np.array(color_mapping[draw_color])
+            fill_bucket((position[0] + 10, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
+            fill_bucket((position[0] - 10, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
+            fill_bucket((position[0], position[1] + 10), pixelArray, color_mapping, draw_color, replace_values, count)
+            fill_bucket((position[0], position[1] - 10), pixelArray, color_mapping, draw_color, replace_values, count)
     return replace_values
 
 
