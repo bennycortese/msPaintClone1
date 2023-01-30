@@ -139,7 +139,7 @@ def main_game_loop(screen, width, height):
         if down and draw_mode == "bucket":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
-            temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict)
+            temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict, 0)
             positions_altered.update(temp_dict)
         for position in positions_altered:
             if position[0] < 3 * xMax / 4:
@@ -153,21 +153,17 @@ def main_game_loop(screen, width, height):
         pygame.display.update()
 
 
-def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values):
+def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, count):
     if 0 < position[0] < 400 and 400 > position[1] > 0:
-        curColor = pixelArray[position[0]][position[1]]
-        changedColor = color_mapping[draw_color]
-        #print(curColor)
-        #print(changedColor)
-        for i in range(len(curColor)):
-            if pixelArray[position[0]][position[1]][i] != changedColor[i]:
-                replace_values[position] = draw_color
-                pixelArray[position[0]][position[1]] = color_mapping[draw_color]
-                fill_bucket((position[0] + 1, position[1]), pixelArray, color_mapping, draw_color, replace_values)
-                fill_bucket((position[0] - 1, position[1]), pixelArray, color_mapping, draw_color, replace_values)
-                fill_bucket((position[0], position[1] + 1), pixelArray, color_mapping, draw_color, replace_values)
-                fill_bucket((position[0], position[1] - 1), pixelArray, color_mapping, draw_color, replace_values)
-                i = len(curColor)
+        changedColor = np.array(color_mapping[draw_color])
+        if not np.array_equal(pixelArray[position[0]][position[1]], changedColor) and count < 5:
+            count += 1;
+            replace_values[position] = draw_color
+            pixelArray[position[0]][position[1]] = color_mapping[draw_color]
+            fill_bucket((position[0] + 1, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
+            fill_bucket((position[0] - 1, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
+            fill_bucket((position[0], position[1] + 1), pixelArray, color_mapping, draw_color, replace_values, count)
+            fill_bucket((position[0], position[1] - 1), pixelArray, color_mapping, draw_color, replace_values, count)
     return replace_values
 
 
