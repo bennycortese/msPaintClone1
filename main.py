@@ -139,7 +139,7 @@ def main_game_loop(screen, width, height):
         if down and draw_mode == "bucket":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
-            temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict, 0)
+            temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict)
             positions_altered.update(temp_dict)
         for position in positions_altered:
             if position[0] < 3 * xMax / 4:
@@ -153,16 +153,25 @@ def main_game_loop(screen, width, height):
         pygame.display.update()
 
 
-def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, count):
-    if 0 < position[0] < 400 and 400 > position[1] > 0:
-        if not np.array_equal(pixelArray[position[0]][position[1]], np.array(color_mapping[draw_color])) and count < 5:
-            count += 1;
-            replace_values[position] = draw_color
-            pixelArray[position[0]][position[1]] = np.array(color_mapping[draw_color])
-            fill_bucket((position[0] + 10, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
-            fill_bucket((position[0] - 10, position[1]), pixelArray, color_mapping, draw_color, replace_values, count)
-            fill_bucket((position[0], position[1] + 10), pixelArray, color_mapping, draw_color, replace_values, count)
-            fill_bucket((position[0], position[1] - 10), pixelArray, color_mapping, draw_color, replace_values, count)
+def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values):
+    pixel_queue = []
+    pixel_queue.append((position[0], position[1]))
+    curColor = pixelArray[pixel_queue[0][0]][pixel_queue[0][1]]
+    while len(pixel_queue) > 0:
+        if 0 < pixel_queue[0][0] < 400 and 400 > pixel_queue[0][1] > 0:
+            if np.array_equal(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]], curColor):
+                replace_values[(pixel_queue[0][0], pixel_queue[0][1])] = draw_color
+                pixelArray[pixel_queue[0][0]][pixel_queue[0][1]] = np.array(color_mapping[draw_color])
+                pixel_queue.append((pixel_queue[0][0] + 1, pixel_queue[0][1]))
+                pixel_queue.append((pixel_queue[0][0] - 1, pixel_queue[0][1]))
+                pixel_queue.append((pixel_queue[0][0], pixel_queue[0][1] + 1))
+                pixel_queue.append((pixel_queue[0][0], pixel_queue[0][1] - 1))
+                #print(len(pixel_queue))
+                #print((pixel_queue[0][0], pixel_queue[0][1]))
+        print(pixel_queue)
+        print(curColor)
+        print(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]])
+        pixel_queue.pop(0)
     return replace_values
 
 
