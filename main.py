@@ -127,6 +127,8 @@ def main_game_loop(screen, width, height):
                     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
                 if event.key == pygame.K_s:
                     draw_mode = "bucket"
+                if event.key == pygame.K_1:
+                    draw_mode = "pixel"
                 if event.key in num_map:
                     pixel_size = num_map[event.key]
         if down and draw_mode == "pixel":
@@ -158,7 +160,7 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values)
     pixel_queue.append((position[0], position[1]))
     curColor = pixelArray[pixel_queue[0][0]][pixel_queue[0][1]]
     while len(pixel_queue) > 0:
-        if 0 < pixel_queue[0][0] < 400 and 400 > pixel_queue[0][1] > 0:
+        if 0 < pixel_queue[0][0] < 600 and 600 > pixel_queue[0][1] > 0:
             if np.array_equal(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]], curColor):
                 replace_values[(pixel_queue[0][0], pixel_queue[0][1])] = draw_color
                 pixelArray[pixel_queue[0][0]][pixel_queue[0][1]] = np.array(color_mapping[draw_color])
@@ -168,9 +170,9 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values)
                 pixel_queue.append((pixel_queue[0][0], pixel_queue[0][1] - 1))
                 #print(len(pixel_queue))
                 #print((pixel_queue[0][0], pixel_queue[0][1]))
-        print(pixel_queue)
-        print(curColor)
-        print(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]])
+        #print(pixel_queue)
+        #print(curColor)
+        #print(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]])
         pixel_queue.pop(0)
     return replace_values
 
