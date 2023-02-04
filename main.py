@@ -127,12 +127,10 @@ def main_game_loop(screen, width, height):
                     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
                 if event.key == pygame.K_s:
                     draw_mode = "bucket"
-                if event.key == pygame.K_1:
+                if event.key == pygame.K_x:
                     draw_mode = "pixel"
                 if event.key in num_map:
                     pixel_size = num_map[event.key]
-                if event.key == pygame.K_2:
-                    draw_mode = "bucket"
         if down and draw_mode == "pixel":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
