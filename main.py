@@ -178,8 +178,8 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values)
 
 
 if __name__ == '__main__':
-    width = 800
-    height = 600
+    width = 1440
+    height = 900
     screen = setup_screen(width, height)
     main_game_loop(screen, width, height)
 
