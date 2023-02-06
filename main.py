@@ -68,7 +68,7 @@ def color_map():
 
 def main_game_loop(screen, width, height):
     draw_mode = "pixel"
-    pixelArray = np.zeros([height, int((width / 4) * 3), 3], dtype=np.uint8)
+    pixelArray = np.zeros([width, height, 3], dtype=np.uint8)
     for i in range(len(pixelArray)):
         for j in range(len(pixelArray[i])):
             pixelArray[i][j] = (255, 255, 255)
