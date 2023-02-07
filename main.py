@@ -144,7 +144,7 @@ def main_game_loop(screen, width, height):
             temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict)
             positions_altered.update(temp_dict)
         for position in positions_altered:
-            if position[0] < 3 * xMax / 4:
+            if position[0] < 3 * xMax / 4 and position[1] < height:
                 pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
                 screen.set_at(position, color_mapping[positions_altered[position]])
         positions_altered.clear()
