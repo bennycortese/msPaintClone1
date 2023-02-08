@@ -158,6 +158,7 @@ def main_game_loop(screen, width, height):
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values):
     pixel_queue = []
     pixel_queue.append((position[0], position[1]))
+    # this is the bug below, curColor is a reference which is why this is always failing
     curColor = pixelArray[pixel_queue[0][0]][pixel_queue[0][1]]
     while len(pixel_queue) > 0:
         # if 0 < pixel_queue[0][0] < 600 and 600 > pixel_queue[0][1] > 0:
@@ -172,9 +173,11 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values)
                 pixel_queue.append((pixel_queue[0][0], pixel_queue[0][1] - 1))
                 pixel_queue.pop(0)
             else:
+                #pixel_queue.pop(0)
+                print(curPixel)
+                print(curColor)
+                print((pixel_queue[0][0], pixel_queue[0][1]))
                 pixel_queue.pop(0)
-                #print(len(pixel_queue))
-                #print((pixel_queue[0][0], pixel_queue[0][1]))
         #print(pixel_queue)
         #print(curColor)
         #print(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]])
