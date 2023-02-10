@@ -141,8 +141,7 @@ def main_game_loop(screen, width, height):
         if down and draw_mode == "bucket":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
-            temp_dict = fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict)
-            positions_altered.update(temp_dict)
+            fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict, positions_altered)
         for position in positions_altered:
             if position[0] < 3 * xMax / 4 and position[1] < height:
                 pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
@@ -155,7 +154,7 @@ def main_game_loop(screen, width, height):
         pygame.display.update()
 
 
-def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values):
+def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, positions_altered):
     pixel_queue = []
     pixel_queue.append((position[0], position[1]))
 
@@ -174,7 +173,7 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values)
                 pixel_queue.pop(0)
             else:
                 pixel_queue.pop(0)
-    return replace_values
+    positions_altered.update(replace_values)
 
 
 if __name__ == '__main__':
