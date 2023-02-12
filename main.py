@@ -2,6 +2,7 @@ import pygame
 import numpy as np
 import copy
 import random
+from PIL import Image
 
 
 def setup_screen(width, height):
@@ -125,8 +126,10 @@ def main_game_loop(screen, width, height):
                 if event.key == pygame.K_r:
                     draw_color = "random"
                     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
-                if event.key == pygame.K_s:
+                if event.key == pygame.K_t:
                     draw_mode = "bucket"
+                if event.key == pygame.K_s:
+                    save_drawing(pixelArray)
                 if event.key == pygame.K_x:
                     draw_mode = "pixel"
                 if event.key in num_map:
@@ -152,6 +155,11 @@ def main_game_loop(screen, width, height):
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
         # print(screen.get_size())
         pygame.display.update()
+
+
+def save_drawing(image_array):
+    new_image = Image.fromarray(image_array)
+    new_image.save('new_image1.png')
 
 
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, positions_altered):
