@@ -158,7 +158,7 @@ def main_game_loop(screen, width, height):
 
 
 def save_drawing(image_array):
-    new_image = Image.fromarray(image_array)
+    new_image = Image.fromarray(np.fliplr(np.rot90(image_array, k=1, axes=(1, 0))))
     new_image.save('new_image1.png')
 
 
