@@ -136,6 +136,8 @@ def main_game_loop(screen, width, height):
                     draw_mode = "pixel"
                 if event.key in num_map:
                     pixel_size = num_map[event.key]
+                if event.key == pygame.K_d:
+                    draw_mode = "dropper"
         if down and draw_mode == "pixel":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
@@ -147,6 +149,10 @@ def main_game_loop(screen, width, height):
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
             fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict, positions_altered)
+        if down and draw_mode == "dropper":
+            pos = pygame.mouse.get_pos()
+            temp_bad_map_refactor_code_TODO = {tuple(v): k for k, v in color_mapping.items()}
+            draw_color = temp_bad_map_refactor_code_TODO[tuple(pixelArray[pos[0]][pos[1]])]
         for position in positions_altered:
             if position[0] < 3 * xMax / 4 and position[1] < height:
                 pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
