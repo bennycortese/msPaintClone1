@@ -129,6 +129,7 @@ def main_game_loop(screen, width, height):
                     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
                 if event.key == pygame.K_t:
                     draw_mode = "bucket"
+                    # Note to self - pycharm keeps crashing after executing bucket mode, not sure why currently
                 if event.key == pygame.K_s:
                     save_drawing(pixelArray)
                 if event.key == pygame.K_x:
