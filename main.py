@@ -17,7 +17,7 @@ def setup_screen(width, height):
 
 
 def increase_pixel_size(positions_altered): # adds a pixel around each point
-    color = None
+    color = None # panic
     result_dict = dict()
     for position in positions_altered:
         color = positions_altered[position]
