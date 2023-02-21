@@ -173,6 +173,16 @@ def save_drawing(image_array):
     else:
         new_image.save('new_image1.png')
 
+def save_drawing_inverse(image_array):
+    new_image = Image.fromarray(
+        np.fliplr(np.rot90(image_array, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
+        for pixel in image:
+            stuff - todo
+    if pathlib.Path('new_image1.png').exists:
+        new_image.save('new_image2.png')
+    else:
+        new_image.save('new_image1.png')
+
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, positions_altered):
     pixel_queue = []
     pixel_queue.append((position[0], position[1]))
