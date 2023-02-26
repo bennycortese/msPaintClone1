@@ -7,6 +7,7 @@ import pathlib
 
 
 #TODO -- practice implementing modal here, wanna screw around with pygame running on a gpu container
+# timestamp was bugged because of bad clock settings
 def setup_screen(width, height):
     size = [width, height]
     pygame.display.init()
