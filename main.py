@@ -6,6 +6,7 @@ from PIL import Image
 import pathlib
 
 
+#TODO -- practice implementing modal here, wanna screw around with pygame running on a gpu container
 def setup_screen(width, height):
     size = [width, height]
     pygame.display.init()
