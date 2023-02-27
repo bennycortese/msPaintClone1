@@ -170,16 +170,17 @@ def main_game_loop(screen, width, height):
 def save_drawing(image_array):
     new_image = Image.fromarray(
         np.fliplr(np.rot90(image_array, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
-    if pathlib.Path('new_image1.png').exists:
-        new_image.save('new_image2.png')
-    else:
-        new_image.save('new_image1.png')
+    cur_path = 'new_image1.png'
+    while pathlib.Path(cur_path).exists():
+        cur_path = 'new_' + cur_path
+        print(cur_path)
+    new_image.save(cur_path)
 
 def save_drawing_inverse(image_array):
     new_image = Image.fromarray(
         np.fliplr(np.rot90(image_array, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
-        for pixel in image:
-            stuff - todo
+        #for pixel in image:
+        #    stuff - todo
     if pathlib.Path('new_image1.png').exists:
         new_image.save('new_image2.png')
     else:
