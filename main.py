@@ -134,6 +134,8 @@ def main_game_loop(screen, width, height):
                     # Note to self - pycharm keeps crashing after executing bucket mode, not sure why currently
                 if event.key == pygame.K_s:
                     save_drawing(pixelArray)
+                if event.key == pygame.K_i:
+                    save_drawing_inverse(pixelArray)
                 if event.key == pygame.K_x:
                     draw_mode = "pixel"
                 if event.key in num_map:
@@ -181,10 +183,11 @@ def save_drawing_inverse(image_array):
         np.fliplr(np.rot90(image_array, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
         #for pixel in image:
         #    stuff - todo
-    if pathlib.Path('new_image1.png').exists:
-        new_image.save('new_image2.png')
-    else:
-        new_image.save('new_image1.png')
+    cur_path = 'inverse_new_image1.png'
+    while pathlib.Path(cur_path).exists():
+        cur_path = 'new_' + cur_path
+        print(cur_path)
+    new_image.save(cur_path)
 
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, positions_altered):
     pixel_queue = []
