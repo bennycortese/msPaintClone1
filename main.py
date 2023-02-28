@@ -180,7 +180,7 @@ def save_drawing(image_array):
 
 def save_drawing_inverse(image_array):
     new_image = Image.fromarray(
-        np.fliplr(np.rot90(image_array, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
+        np.fliplr(np.rot90(image_array, k=1, axes=(0, 1))))  # 90 degree rotation and then horizontal flip
         #for pixel in image:
         #    stuff - todo
     cur_path = 'inverse_new_image1.png'
