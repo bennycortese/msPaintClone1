@@ -67,7 +67,7 @@ def color_map():
     color_mapping["some_green"] = [120, 240, 140]
     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
     color_mapping["gold"] = [255, 215, 0]
-    color_mapping[[0, 0, 0]] = "black" # bad idea probably
+    #color_mapping[[0, 0, 0]] = "black" # bad idea probably
     return color_mapping
 
 
@@ -171,8 +171,9 @@ def main_game_loop(screen, width, height):
 
 
 def save_drawing(image_array):
+    to_save = image_array[0:int(3*len(image_array)/4)]
     new_image = Image.fromarray(
-        np.fliplr(np.rot90(image_array, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
+        np.fliplr(np.rot90(to_save, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
     cur_path = 'new_image1.png'
     while pathlib.Path(cur_path).exists():
         cur_path = 'new_' + cur_path
