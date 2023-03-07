@@ -19,7 +19,7 @@ def setup_screen(width, height):
 
 
 def increase_pixel_size(positions_altered): # adds a pixel around each point
-    color = None # panic
+    color = None
     result_dict = dict()
     for position in positions_altered:
         color = positions_altered[position]
@@ -166,7 +166,6 @@ def main_game_loop(screen, width, height):
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3 * xMax / 4, 0, xMax / 4, yMax)
         pygame.Surface.fill(screen, color="green", rect=menu_rect)
-        # print(screen.get_size())
         pygame.display.update()
 
 
@@ -183,8 +182,6 @@ def save_drawing(image_array):
 def save_drawing_inverse(image_array):
     new_image = Image.fromarray(
         np.fliplr(np.rot90(image_array, k=1, axes=(0, 1))))  # 90 degree rotation and then horizontal flip
-        #for pixel in image:
-        #    stuff - todo
     cur_path = 'inverse_new_image1.png'
     while pathlib.Path(cur_path).exists():
         cur_path = 'new_' + cur_path
@@ -195,7 +192,6 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values,
     pixel_queue = []
     pixel_queue.append((position[0], position[1]))
 
-    # this was the bug below, curColor is was a reference which is why this was always failing
     curColor = copy.deepcopy(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]])
     while len(pixel_queue) > 0:
         if True:
@@ -218,5 +214,3 @@ if __name__ == '__main__':
     height = 900
     screen = setup_screen(width, height)
     main_game_loop(screen, width, height)
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
