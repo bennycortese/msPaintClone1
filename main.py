@@ -208,9 +208,16 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values,
                 pixel_queue.pop(0)
     positions_altered.update(replace_values)
 
+import modal
+stub = modal.Stub()
 
-if __name__ == '__main__':
+@stub.local_entrypoint
+def main():
     width = 1440
     height = 900
     screen = setup_screen(width, height)
     main_game_loop(screen, width, height)
+
+
+#if __name__ == '__main__':
+#    main()
