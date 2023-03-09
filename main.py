@@ -211,7 +211,7 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values,
 import modal
 stub = modal.Stub()
 
-@stub.local_entrypoint
+@stub.local_entrypoint # not sure this isn't just running locally?
 def main():
     width = 1440
     height = 900
