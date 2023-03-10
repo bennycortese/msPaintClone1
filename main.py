@@ -6,8 +6,6 @@ from PIL import Image
 import pathlib
 
 
-#TODO -- practice implementing modal here, wanna screw around with pygame running on a gpu container
-# timestamp was bugged because of bad clock settings
 def setup_screen(width, height):
     size = [width, height]
     pygame.display.init()
@@ -208,10 +206,7 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values,
                 pixel_queue.pop(0)
     positions_altered.update(replace_values)
 
-import modal
-stub = modal.Stub()
 
-@stub.local_entrypoint # not sure this isn't just running locally?
 def main():
     width = 1440
     height = 900
@@ -219,5 +214,5 @@ def main():
     main_game_loop(screen, width, height)
 
 
-#if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()
