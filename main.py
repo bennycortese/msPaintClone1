@@ -192,7 +192,7 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values,
 
     curColor = copy.deepcopy(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]])
     while len(pixel_queue) > 0:
-        if True:
+        if True: # TODO -- this is the problem with fillbucket, no idea how I forgot this here, oops - needs a out of bounds detect
             curPixel = pixelArray[pixel_queue[0][0]][pixel_queue[0][1]]
             if np.array_equal(curPixel, curColor):
                 replace_values[(pixel_queue[0][0], pixel_queue[0][1])] = draw_color
