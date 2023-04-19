@@ -186,6 +186,13 @@ def save_drawing_inverse(image_array):
         print(cur_path)
     new_image.save(cur_path)
 
+
+def star_pattern(position, sizeo):
+    if sizeo == 1:
+        return position
+    else:
+        pass #TODO star pattern/scaled
+
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, positions_altered):
     pixel_queue = []
     pixel_queue.append((position[0], position[1]))
