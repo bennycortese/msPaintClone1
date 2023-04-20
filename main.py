@@ -4,6 +4,8 @@ import copy
 import random
 from PIL import Image
 import pathlib
+
+
 # TODO - shapes like stars, ability to open files
 
 def setup_screen(width, height):
@@ -16,7 +18,7 @@ def setup_screen(width, height):
     return screen
 
 
-def increase_pixel_size(positions_altered): # adds a pixel around each point
+def increase_pixel_size(positions_altered):  # adds a pixel around each point
     color = None
     result_dict = dict()
     for position in positions_altered:
@@ -65,7 +67,7 @@ def color_map():
     color_mapping["some_green"] = [120, 240, 140]
     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
     color_mapping["gold"] = [255, 215, 0]
-    #color_mapping[[0, 0, 0]] = "black" # bad idea probably
+    # color_mapping[[0, 0, 0]] = "black" # bad idea probably
     return color_mapping
 
 
@@ -168,7 +170,7 @@ def main_game_loop(screen, width, height):
 
 
 def save_drawing(image_array):
-    to_save = image_array[0:int(3*len(image_array)/4)]
+    to_save = image_array[0:int(3 * len(image_array) / 4)]
     new_image = Image.fromarray(
         np.fliplr(np.rot90(to_save, k=1, axes=(1, 0))))  # 90 degree rotation and then horizontal flip
     cur_path = 'new_image1.png'
@@ -176,6 +178,13 @@ def save_drawing(image_array):
         cur_path = 'new_' + cur_path
         print(cur_path)
     new_image.save(cur_path)
+
+
+def open_drawing(given_path):
+    file_to_read = file.open(given_path, "r")
+    write_to_image_array(file_to_read)
+    # TODO - write_to_image_array, way of triggering this
+
 
 def save_drawing_inverse(image_array):
     new_image = Image.fromarray(
@@ -191,7 +200,8 @@ def star_pattern(position, sizeo):
     if sizeo == 1:
         return position
     else:
-        pass #TODO star pattern/scaled
+        pass  # TODO star pattern/scaled
+
 
 def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values, positions_altered):
     pixel_queue = []
@@ -199,7 +209,7 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values,
 
     curColor = copy.deepcopy(pixelArray[pixel_queue[0][0]][pixel_queue[0][1]])
     while len(pixel_queue) > 0:
-        if True: # TODO -- this is the problem with fillbucket, no idea how I forgot this here, oops - needs a out of bounds detect
+        if True:  # TODO -- this is the problem with fillbucket, no idea how I forgot this here, oops - needs a out of bounds detect
             curPixel = pixelArray[pixel_queue[0][0]][pixel_queue[0][1]]
             if np.array_equal(curPixel, curColor):
                 replace_values[(pixel_queue[0][0], pixel_queue[0][1])] = draw_color
