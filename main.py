@@ -51,7 +51,7 @@ def num_key_map():
 
 def color_map():
     color_mapping = dict()
-    color_mapping["black"] = [0, 0, 0]
+    color_mapping["black"] = [random.randint(0, 5), 0, 0]
     color_mapping["red"] = [255, 0, 0]
     color_mapping["green"] = [0, 255, 0]
     color_mapping["blue"] = [0, 0, 255]
