@@ -67,6 +67,8 @@ def color_map():
     color_mapping["some_green"] = [120, 240, 140]
     color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
     color_mapping["red_random"] = [random.randint(0, 255), 0, 0]
+    color_mapping["green_random"] = [0, random.randint(0, 255), 0]
+    color_mapping["blue_random"] = [0, 0, random.randint(0, 255)]
 
     color_mapping["gold"] = [255, 215, 0]
     # color_mapping[[0, 0, 0]] = "black" # bad idea probably
@@ -135,6 +137,12 @@ def main_game_loop(screen, width, height):
                 if event.key == pygame.K_f:
                     draw_color = "red_random"
                     color_mapping["red_random"] = [random.randint(0, 255), 0, 0]
+                if event.key == pygame.K_v:
+                    draw_color = "green_random"
+                    color_mapping["green_random"] = [0, random.randint(0, 255), 0]
+                if event.key == pygame.K_h:
+                    draw_color = "blue_random"
+                    color_mapping["blue_random"] = [0, 0, random.randint(0, 255)]
                 if event.key == pygame.K_t:
                     draw_mode = "bucket"
                     # Note to self - pycharm keeps crashing after executing bucket mode, not sure why currently
