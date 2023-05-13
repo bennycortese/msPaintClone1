@@ -5,7 +5,7 @@ import random
 from PIL import Image
 import pathlib
 
-
+# TODO - buttons and need a open button
 # TODO - shapes like stars, ability to open files
 
 def setup_screen(width, height):
