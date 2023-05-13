@@ -73,6 +73,9 @@ def color_map():
     color_mapping["gold"] = [255, 215, 0]
     # color_mapping[[0, 0, 0]] = "black" # bad idea probably
     return color_mapping
+    
+def revert_previous_move(move_stack):
+    print("simply replace the move here with the colors previously there, store both in the same place in the stack")
 
 
 def main_game_loop(screen, width, height):
@@ -91,6 +94,7 @@ def main_game_loop(screen, width, height):
     draw_color = "black"
     pixel_size = 3
     num_map = num_key_map()
+    move_stack = stack()
     while playing:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -156,6 +160,8 @@ def main_game_loop(screen, width, height):
                     pixel_size = num_map[event.key]
                 if event.key == pygame.K_d:
                     draw_mode = "dropper"
+                if event.key == pygame.K_z and pygame.key.get_mods() and pygame.KMOD_LCTRL:
+                    revert_previous_move(move_stack)
         if down and draw_mode == "pixel":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
