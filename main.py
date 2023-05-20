@@ -8,6 +8,7 @@ import pathlib
 # TODO - buttons and need a open button
 # TODO - shapes like stars, ability to open files
 
+
 def setup_screen(width, height):
     size = [width, height]
     pygame.display.init()
@@ -65,7 +66,8 @@ def color_map():
     color_mapping["fuchsia"] = [255, 0, 255]
     color_mapping["emerald_green"] = [80, 200, 120]
     color_mapping["some_green"] = [120, 240, 140]
-    color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+    color_mapping["random"] = [random.randint(
+        0, 255), random.randint(0, 255), random.randint(0, 255)]
     color_mapping["red_random"] = [random.randint(0, 255), 0, 0]
     color_mapping["green_random"] = [0, random.randint(0, 255), 0]
     color_mapping["blue_random"] = [0, 0, random.randint(0, 255)]
@@ -73,17 +75,22 @@ def color_map():
     color_mapping["gold"] = [255, 215, 0]
     # color_mapping[[0, 0, 0]] = "black" # bad idea probably
     return color_mapping
-    
+
+
 def revert_previous_move(move_stack):
     print("simply replace the move here with the colors previously there, store both in the same place in the stack")
+
+
+def set_white(pixelArray):
+    for i in range(len(pixelArray)):
+        for j in range(len(pixelArray[i])):
+            pixelArray[i][j] = (255, 255, 255)
 
 
 def main_game_loop(screen, width, height):
     draw_mode = "pixel"
     pixelArray = np.zeros([width, height, 3], dtype=np.uint8)
-    for i in range(len(pixelArray)):
-        for j in range(len(pixelArray[i])):
-            pixelArray[i][j] = (255, 255, 255)
+    set_white(pixelArray)
     color_mapping = color_map()
     print(len(pixelArray[0]))
     playing = True
@@ -137,16 +144,20 @@ def main_game_loop(screen, width, height):
                     draw_color = "emerald_green"
                 if event.key == pygame.K_r:
                     draw_color = "random"
-                    color_mapping["random"] = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+                    color_mapping["random"] = [random.randint(
+                        0, 255), random.randint(0, 255), random.randint(0, 255)]
                 if event.key == pygame.K_f:
                     draw_color = "red_random"
-                    color_mapping["red_random"] = [random.randint(0, 255), 0, 0]
+                    color_mapping["red_random"] = [
+                        random.randint(0, 255), 0, 0]
                 if event.key == pygame.K_v:
                     draw_color = "green_random"
-                    color_mapping["green_random"] = [0, random.randint(0, 255), 0]
+                    color_mapping["green_random"] = [
+                        0, random.randint(0, 255), 0]
                 if event.key == pygame.K_h:
                     draw_color = "blue_random"
-                    color_mapping["blue_random"] = [0, 0, random.randint(0, 255)]
+                    color_mapping["blue_random"] = [
+                        0, 0, random.randint(0, 255)]
                 if event.key == pygame.K_t:
                     draw_mode = "bucket"
                     # Note to self - pycharm keeps crashing after executing bucket mode, not sure why currently
@@ -172,15 +183,20 @@ def main_game_loop(screen, width, height):
         if down and draw_mode == "bucket":
             pos = pygame.mouse.get_pos()
             temp_dict = dict()
-            fill_bucket(pos, pixelArray, color_mapping, draw_color, temp_dict, positions_altered)
+            fill_bucket(pos, pixelArray, color_mapping,
+                        draw_color, temp_dict, positions_altered)
         if down and draw_mode == "dropper":
             pos = pygame.mouse.get_pos()
-            temp_bad_map_refactor_code_TODO = {tuple(v): k for k, v in color_mapping.items()}
-            draw_color = temp_bad_map_refactor_code_TODO[tuple(pixelArray[pos[0]][pos[1]])]
+            temp_bad_map_refactor_code_TODO = {
+                tuple(v): k for k, v in color_mapping.items()}
+            draw_color = temp_bad_map_refactor_code_TODO[tuple(
+                pixelArray[pos[0]][pos[1]])]
         for position in positions_altered:
             if position[0] < 3 * xMax / 4 and position[1] < height:
-                pixelArray[position[0]][position[1]] = color_mapping[positions_altered[position]]
-                screen.set_at(position, color_mapping[positions_altered[position]])
+                pixelArray[position[0]][position[1]
+                                        ] = color_mapping[positions_altered[position]]
+                screen.set_at(
+                    position, color_mapping[positions_altered[position]])
         positions_altered.clear()
         xMax, yMax = screen.get_size()
         menu_rect = pygame.Rect(3 * xMax / 4, 0, xMax / 4, yMax)
@@ -231,8 +247,10 @@ def fill_bucket(position, pixelArray, color_mapping, draw_color, replace_values,
         if True:  # TODO -- this is the problem with fillbucket, no idea how I forgot this here, oops - needs a out of bounds detect
             curPixel = pixelArray[pixel_queue[0][0]][pixel_queue[0][1]]
             if np.array_equal(curPixel, curColor):
-                replace_values[(pixel_queue[0][0], pixel_queue[0][1])] = draw_color
-                pixelArray[pixel_queue[0][0]][pixel_queue[0][1]] = np.array(color_mapping[draw_color])
+                replace_values[(pixel_queue[0][0],
+                                pixel_queue[0][1])] = draw_color
+                pixelArray[pixel_queue[0][0]][pixel_queue[0]
+                                              [1]] = np.array(color_mapping[draw_color])
                 pixel_queue.append((pixel_queue[0][0] + 1, pixel_queue[0][1]))
                 pixel_queue.append((pixel_queue[0][0] - 1, pixel_queue[0][1]))
                 pixel_queue.append((pixel_queue[0][0], pixel_queue[0][1] + 1))
