@@ -7,6 +7,7 @@ import pathlib
 
 # TODO - buttons and need a open button
 # TODO - shapes like stars, ability to open files
+# TODO - Client/server model so multiple people can draw at once and it renders back to all users of the paint app
 
 
 def setup_screen(width, height):
