@@ -4,6 +4,16 @@ import copy
 import random
 from PIL import Image
 import pathlib
+import openai
+import requests
+from dotenv import load_dotenv
+import os
+from io import BytesIO
+
+load_dotenv()
+
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
 
 # TODO - buttons and need a open button
 # TODO - shapes like stars, ability to open files
@@ -102,7 +112,7 @@ def main_game_loop(screen, width, height):
     draw_color = "black"
     pixel_size = 3
     num_map = num_key_map()
-    move_stack = stack()
+    move_stack = []
     while playing:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -131,6 +141,32 @@ def main_game_loop(screen, width, height):
                     draw_color = "black"
                 if event.key == pygame.K_c:
                     draw_color = "cyan"
+                if event.key == pygame.K_a:
+                    save_drawing(pixelArray)
+                    image = Image.open("new_image1.png")
+                    cur_width, cur_height = 1024, 1024
+                    image = image.resize((cur_width, cur_height))
+
+                    byte_stream = BytesIO()
+                    image.save(byte_stream, format='PNG')
+                    byte_array = byte_stream.getvalue()
+
+                    response = openai.Image.create_variation(
+                        image=byte_array,
+                        n=1,
+                        size="1024x1024"
+                    )
+
+                    image_url = response['data'][0]['url']
+
+                    response = requests.get(image_url)
+
+                    if response.status_code == 200:
+                        with open('imageGen1.jpg', 'wb') as file:
+                            file.write(response.content)
+                    else:
+                        print(f"Failed to retrieve image. Status code: {response.status_code}")
+
                 if event.key == pygame.K_o:
                     draw_color = "orange"
                 if event.key == pygame.K_s:
