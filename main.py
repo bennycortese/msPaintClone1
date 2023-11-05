@@ -9,6 +9,8 @@ import requests
 from dotenv import load_dotenv
 import os
 from io import BytesIO
+import torch
+from diffusers import StableDiffusionInstructPix2PixPipeline, EulerAncestralDiscreteScheduler
 
 load_dotenv()
 
@@ -97,8 +99,22 @@ def set_white(pixelArray):
         for j in range(len(pixelArray[i])):
             pixelArray[i][j] = (255, 255, 255)
 
+def clear_cuda_cache():
+    torch.cuda.empty_cache()
+
+
 
 def main_game_loop(screen, width, height):
+
+    model_id = "timbrooks/instruct-pix2pix"
+    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+        model_id,
+        torch_dtype=torch.float16,
+        safety_checker=None
+    )
+    pipe.to("cuda")
+    pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
+
     draw_mode = "pixel"
     pixelArray = np.zeros([width, height, 3], dtype=np.uint8)
     set_white(pixelArray)
@@ -166,6 +182,32 @@ def main_game_loop(screen, width, height):
                             file.write(response.content)
                     else:
                         print(f"Failed to retrieve image. Status code: {response.status_code}")
+
+                    img = Image.open('imageGen1.jpg')
+                    pixels = img.load()  # Create the pixel map
+
+                    # Iterate over every pixel
+                    for i in range(900):  # For every column img.size[0]
+                        for j in range(img.size[1]):  # For every row img.size[1]
+                            color = pixels[i, j]
+                            screen.set_at((i, j), color)
+
+                if event.key == pygame.K_l:
+                    save_drawing(pixelArray)
+                    with torch.no_grad():  # Ensure that we're not tracking gradients
+                        image = Image.open("new_image1.png")
+                        prompt = "turn him into cyborg"
+                        images = pipe(prompt, image=image, num_inference_steps=10, image_guidance_scale=1).images
+                        image = images[0]
+                        image_pixels = image.load()
+                        for i in range(image.size[0]):  # For every column
+                            for j in range(image.size[1]):  # For every row
+                                color = image_pixels[i, j]
+                                screen.set_at((i, j), color)
+
+                        # Perform in-place operations if possible and delete any large temporary variables
+                        del image_pixels, images, image
+                        torch.cuda.empty_cache()
 
                 if event.key == pygame.K_o:
                     draw_color = "orange"
