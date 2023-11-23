@@ -21,6 +21,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 # TODO - shapes like stars, ability to open files
 # TODO - Client/server model so multiple people can draw at once and it renders back to all users of the paint app
 # CRDT for synchronization
+# Rewrite logic in typescript somehow 
 
 def setup_screen(width, height):
     size = [width, height]
